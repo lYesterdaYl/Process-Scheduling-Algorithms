@@ -40,6 +40,19 @@ public class Schedule {
         sortedList  = new ArrayList<Process>();
     }
 
+    // perform the First Come First Serve algorithm
+    private void fcfs(){
+        int t = 0;
+
+        t = sortedList.get(0).arrival;
+        for (int i = 0; i < sortedList.size(); i++){
+            Process p = sortedList.get(i);
+            t += p.service;
+
+            p.turnaround = t - p.arrival;
+        }
+    }
+
     // run the 4 test
     public void runTest(String infname, String outfname) throws IOException{
 
