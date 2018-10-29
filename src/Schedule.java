@@ -64,6 +64,17 @@ public class Schedule {
             }
         }
 
+        resetProcess();
+    }
+
+    // reset all the process for next algorithm
+    private void resetProcess(){
+        for (int i = 0; i < orgList.size(); i++){
+            Process p = orgList.get(i);
+            p.qtime = 0;
+            p.remain = p.service;
+            p.turnaround = 0;
+        }
     }
 
     // perform the First Come First Serve algorithm
