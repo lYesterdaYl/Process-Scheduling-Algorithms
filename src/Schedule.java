@@ -40,6 +40,32 @@ public class Schedule {
         sortedList  = new ArrayList<Process>();
     }
 
+    // read the file, and save the process in the list
+    private void loadFile(String infname) throws IOException{
+        Scanner scfile = new Scanner(new File(infname));
+        while (scfile.hasNextInt()){
+            Process p = new Process();
+            p.id = orgList.size();
+            p.arrival = scfile.nextInt();
+            p.service = scfile.nextInt();
+            orgList.add(p);
+            sortedList.add(p);
+        }
+        scfile.close();
+
+        // sort the list by arrival time
+        for (int i = 1; i < sortedList.size(); i++){
+            int j = i;
+            while (j > 0 && (sortedList.get(j-1).arrival > sortedList.get(j).arrival)){
+                Process p = sortedList.get(j-1);
+                sortedList.set(j-1, sortedList.get(j));
+                sortedList.set(j, p);
+                j--;
+            }
+        }
+
+    }
+
     // perform the First Come First Serve algorithm
     private void fcfs(){
         int t = 0;
