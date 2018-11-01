@@ -77,6 +77,23 @@ public class Schedule {
         }
     }
 
+    // output the result to outf
+    private void outputResult(){
+        double total = 0;
+        for (int i = 0; i < orgList.size(); i++){
+            Process p = orgList.get(i);
+            total += p.turnaround;
+        }
+        outfile.printf("%.2f", ((int)(total * 100/orgList.size()))/100.0);
+
+        for (int i = 0; i < orgList.size(); i++){
+            outfile.printf(" %d", orgList.get(i).turnaround);
+        }
+        outfile.println();
+
+        resetProcess();
+    }
+
     // perform the First Come First Serve algorithm
     private void fcfs(){
         int t = 0;
@@ -92,7 +109,13 @@ public class Schedule {
 
     // run the 4 test
     public void runTest(String infname, String outfname) throws IOException{
+        outfile = new PrintWriter(outfname);
+        loadFile(infname);
 
+        fcfs();
+        outputResult();
+
+        
     }
     // The main method, start the project
     public static void main(String[] args) throws IOException{
