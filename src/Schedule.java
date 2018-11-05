@@ -155,6 +155,8 @@ public class Schedule {
         fcfs();
         outputResult();
 
+        sjf();
+        outputResult();
 
     }
     // The main method, start the project
