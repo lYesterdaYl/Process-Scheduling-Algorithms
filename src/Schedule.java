@@ -107,6 +107,46 @@ public class Schedule {
         }
     }
 
+    // perform the Shortest Job First algorithm
+    private void sjf(){
+        int finished = 0;
+        int t = 0;
+        int nextIdx = 0;    // next arrival index in sortedList
+        ArrayList<Process> waiting = new ArrayList<Process>();
+
+        while (finished < sortedList.size()){
+            // update current time to next arrival if no waiting process
+            if (waiting.isEmpty()){
+                if (t < sortedList.get(nextIdx).arrival)
+                    t = sortedList.get(nextIdx).arrival;
+            }
+
+            // add new arrival to waiting
+            while (nextIdx < sortedList.size() && sortedList.get(nextIdx).arrival <= t){
+                waiting.add(sortedList.get(nextIdx));
+                nextIdx++;
+            }
+
+            // find the shortest job in waiting queue
+            Process curr = waiting.get(0);
+            for (int i = 1; i < waiting.size(); i++){
+                Process tmp = waiting.get(i);
+                if (tmp.service < curr.service || (tmp.service == curr.service && tmp.id < curr.id) ){
+                    curr = tmp;
+                }
+            }
+            waiting.remove(curr);
+
+            t += curr.service;
+
+            // calculate turnaround time
+            curr.turnaround = t - curr.arrival;
+
+            finished++;
+        }
+
+    }
+
     // run the 4 test
     public void runTest(String infname, String outfname) throws IOException{
         outfile = new PrintWriter(outfname);
@@ -115,7 +155,7 @@ public class Schedule {
         fcfs();
         outputResult();
 
-        
+
     }
     // The main method, start the project
     public static void main(String[] args) throws IOException{
