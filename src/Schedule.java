@@ -194,6 +194,7 @@ public class Schedule {
                 // calculate turnaround time
                 curr.turnaround = t - curr.arrival;
 
+                finished++;
             }
 
         }
