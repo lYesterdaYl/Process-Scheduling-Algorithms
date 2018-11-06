@@ -211,6 +211,9 @@ public class Schedule {
         sjf();
         outputResult();
 
+        srt();
+        outputResult();
+
     }
     // The main method, start the project
     public static void main(String[] args) throws IOException{
