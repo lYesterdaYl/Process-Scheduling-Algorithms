@@ -147,6 +147,58 @@ public class Schedule {
 
     }
 
+    // perform the Shortest Remain Time algorithm
+    private void srt(){
+        int finished = 0;
+        int t = 0;
+        int nextIdx = 0;    // next arrival index in sortedList
+        ArrayList<Process> waiting = new ArrayList<Process>();
+
+        while (finished < sortedList.size()){
+            // update current time to next arrival if no waiting process
+            if (waiting.isEmpty()){
+                if (t < sortedList.get(nextIdx).arrival){
+                    t = sortedList.get(nextIdx).arrival;
+                }
+            }
+
+            // add new arrival to waiting
+            while (nextIdx < sortedList.size() && sortedList.get(nextIdx).arrival <= t){
+                waiting.add(sortedList.get(nextIdx));
+                nextIdx++;
+            }
+
+            // find the shortest remaining job in waiting queue
+            Process curr = waiting.get(0);
+            for (int i = 1; i < waiting.size(); i++){
+                Process tmp = waiting.get(i);
+                if (tmp.remain < curr.remain || (tmp.remain == curr.remain && tmp.id < curr.id) ){
+                    curr = tmp;
+                }
+            }
+
+            waiting.remove(curr);
+
+            // is this process preempted by next arrival process?
+            if ( nextIdx < sortedList.size() && t + curr.remain > sortedList.get(nextIdx).arrival){
+                curr.remain -= (sortedList.get(nextIdx).arrival - t);
+
+                // add back to waiting
+                waiting.add(curr);
+
+                // update time to next arrival
+                t = sortedList.get(nextIdx).arrival;
+            }
+            else{
+                t += curr.remain;
+                // calculate turnaround time
+                curr.turnaround = t - curr.arrival;
+
+            }
+
+        }
+    }
+
     // run the 4 test
     public void runTest(String infname, String outfname) throws IOException{
         outfile = new PrintWriter(outfname);
