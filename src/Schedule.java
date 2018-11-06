@@ -214,6 +214,8 @@ public class Schedule {
         srt();
         outputResult();
 
+        outfile.close();
+
     }
     // The main method, start the project
     public static void main(String[] args) throws IOException{

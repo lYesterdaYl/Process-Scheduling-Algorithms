@@ -4,3 +4,5 @@
 .idea/modules.xml
 *.xml
 *.iml
+output.txt
+out
