@@ -200,6 +200,25 @@ public class Schedule {
         }
     }
 
+    // perform the Multilevel Feedback algorithm
+    private void mlf(){
+        MLFQueue[] q = new MLFQueue[N];
+        int t = T;
+        for (int i = 0; i < N; i++){
+            q[i] = new MLFQueue();
+            q[i].piece = t;
+            q[i].queue = new LinkedList<Process>();
+            t *= 2;
+        }
+
+        int nextIdx = 0;
+        int finished = 0;
+        int i = 0;
+
+        t = sortedList.get(nextIdx).arrival;
+
+    }
+
     // run the 4 test
     public void runTest(String infname, String outfname) throws IOException{
         outfile = new PrintWriter(outfname);
