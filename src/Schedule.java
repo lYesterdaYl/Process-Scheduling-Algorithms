@@ -217,6 +217,72 @@ public class Schedule {
 
         t = sortedList.get(nextIdx).arrival;
 
+        while (finished < sortedList.size()){
+            // find highest priority queue which is not empty
+            for (i = 0; i < N; i++){
+                if (!q[i].queue.isEmpty()){
+                    break;
+                }
+            }
+
+            // if no waiting process, update time to next arrival
+            if (i == N && nextIdx < sortedList.size() && t < sortedList.get(nextIdx).arrival)
+                t = sortedList.get(nextIdx).arrival;
+
+            // add new arrival to first queue
+            while (nextIdx < sortedList.size() && sortedList.get(nextIdx).arrival <= t){
+                Process tmp = sortedList.get(nextIdx);
+                nextIdx++;
+
+                // add to first queue
+                q[0].queue.add(tmp);
+                i = 0;
+            }
+
+            // run piece
+            Process curr = q[i].queue.peek();
+
+            int burst = q[i].piece;
+            if (burst > curr.remain){
+                burst = curr.remain;
+            }
+
+            if (i > 0 && nextIdx < sortedList.size() && sortedList.get(nextIdx).arrival < t + burst){
+                burst = sortedList.get(nextIdx).arrival - t;
+            }
+            if (curr.qtime + burst > q[i].piece){
+                burst = q[i].piece - curr.qtime;
+            }
+
+            t += burst;
+            curr.remain -= burst;
+            curr.qtime += burst;
+
+            if (curr.remain == 0){
+                // finished, remove from the queue
+                q[i].queue.poll();
+
+                // calculate turnaround time
+                curr.turnaround = t - curr.arrival;
+
+                finished++;
+            }
+            else if (curr.qtime == q[i].piece){
+                // complete all allocated time, move to next queue
+                q[i].queue.poll();
+
+                if (i < N-1)
+                    i++;
+                curr.qtime = 0;
+
+                // add to next waiting queue
+                q[i].queue.add(curr);
+            }
+            else{
+                // prempted by arrival process
+            }
+
+        }
     }
 
     // run the 4 test
