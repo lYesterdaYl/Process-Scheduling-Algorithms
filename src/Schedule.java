@@ -302,6 +302,9 @@ public class Schedule {
         srt();
         outputResult();
 
+        mlf();
+        outputResult();
+
         outfile.close();
 
     }
