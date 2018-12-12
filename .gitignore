@@ -5,3 +5,4 @@
 *.xml
 *.iml
 out
+src/META-INF/MANIFEST.MF

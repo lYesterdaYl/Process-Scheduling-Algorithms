@@ -98,7 +98,6 @@ public class Schedule {
     private void fcfs(){
         int t = 0;
 
-//        t = sortedList.get(0).arrival;
         for (int i = 0; i < sortedList.size(); i++){
             Process p = sortedList.get(i);
             if (t < p.arrival){
